@@ -1,0 +1,16 @@
+PODS:
+  - VisualKit (0.0.1)
+
+DEPENDENCIES:
+  - VisualKit (from `./VisualKit.podspec`)
+
+EXTERNAL SOURCES:
+  VisualKit:
+    :path: ./VisualKit.podspec
+
+SPEC CHECKSUMS:
+  VisualKit: af6bdca03624af776825750c17bd198b5d7ad5df
+
+PODFILE CHECKSUM: 20f0ed9e26b27e0f1d4ad646f002cec612e2323d
+
+COCOAPODS: 1.2.0
