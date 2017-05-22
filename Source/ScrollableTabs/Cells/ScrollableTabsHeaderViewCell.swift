@@ -2,10 +2,6 @@
 
 import UIKit
 
-protocol HeaderCellDataSource {
-    var barHeight: CGFloat { get }
-}
-
 public struct BarConfiguration {
     let height: CGFloat
     let color: UIColor
@@ -18,24 +14,24 @@ public struct BarConfiguration {
     public static let `default` = BarConfiguration(height: 2, color: .black)
 }
 
-class ScrollableTabsHeaderViewCell: UICollectionViewCell {
+open class ScrollableTabsHeaderViewCell: UICollectionViewCell {
 
     static var reuseIdentifier = "ScrollableTabsHeaderViewCell"
 
-    var headerView: UIView!
     private let bottomBar = UIView()
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setup() {
+    open func setup() {
         addSubview(bottomBar)
+        
         bottomBar.alpha = 0
         bottomBar.backgroundColor = .black
 
@@ -46,27 +42,12 @@ class ScrollableTabsHeaderViewCell: UICollectionViewCell {
         bottomBar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
 
-    override func prepareForReuse() {
-        self.headerView.removeFromSuperview()
-    }
-
-    func configureHeader(_ headerView: UIView, barConfiguration: BarConfiguration = .default) {
-        self.headerView = headerView
-        contentView.addSubview(headerView)
-        
-        contentView.addSubview(headerView)
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        headerView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        headerView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        headerView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        
+    open func configureBar(_ barConfiguration: BarConfiguration = .default) {
         bottomBar.heightAnchor.constraint(equalToConstant: barConfiguration.height).isActive = true
         bottomBar.backgroundColor = barConfiguration.color
     }
 
-    override var isSelected: Bool {
+    override open var isSelected: Bool {
         didSet {
             UIView.animate(
                 withDuration: 0.5,

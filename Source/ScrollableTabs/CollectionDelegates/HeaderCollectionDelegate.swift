@@ -1,45 +1,26 @@
 import UIKit
 
-protocol ScrollableTabTitleSelectionDelegate: class {
+protocol ScrollableTabHeaderSelectionDelegate: class {
     func titleSelected(at index: Int)
 }
 
-class HeaderCollectionDelegate: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HeaderCollectionDelegate: NSObject, UICollectionViewDelegateFlowLayout {
+    
+    private unowned var configurator: TabConfiguratorType
+    private unowned var delegate: ScrollableTabHeaderSelectionDelegate
+    
+    private let numberOfTabs: Int
 
-    private let dataSource: ScrollableTabsDataSource
-    private weak var delegate: ScrollableTabTitleSelectionDelegate?
-
-    private let titlePadding: CGFloat = 70
-
-    init(dataSource: ScrollableTabsDataSource, delegate: ScrollableTabTitleSelectionDelegate) {
-        self.dataSource = dataSource
+    init(configurator: TabConfiguratorType, delegate: ScrollableTabHeaderSelectionDelegate, numberOfTabs: Int) {
+        self.configurator = configurator
         self.delegate = delegate
-    }
-
-    // MARK: - UICollectionViewDataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.numberOfTabs()
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ScrollableTabsHeaderViewCell.reuseIdentifier,
-            for: indexPath
-            ) as? ScrollableTabsHeaderViewCell else {
-                return UICollectionViewCell()
-        }        
-        cell.configureHeader(
-            dataSource.headerView(at: indexPath.item),
-            barConfiguration: dataSource.barConfiguration)
-        
-        return cell
+        self.numberOfTabs = numberOfTabs
     }
 
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.titleSelected(at: indexPath.row)
+        delegate.titleSelected(at: indexPath.row)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 
@@ -50,7 +31,7 @@ class HeaderCollectionDelegate: NSObject, UICollectionViewDelegate, UICollection
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(
-            width: dataSource.widthForHeader(at: indexPath.item),
+            width: configurator.widthForHeader(at: indexPath.item),
             height: collectionView.frame.size.height
         )
     }
@@ -59,13 +40,16 @@ class HeaderCollectionDelegate: NSObject, UICollectionViewDelegate, UICollection
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        guard dataSource.tabsCentered else {
+        guard configurator.tabsCentered else {
             return .zero
         }
         
-        let leftInset = (collectionView.bounds.size.width - dataSource.widthForHeader(at: 0))/2
-        let rightInset = (collectionView.bounds.size.width - dataSource.widthForHeader(at: dataSource.numberOfTabs()))/2
-        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        return UIEdgeInsets(
+            top: 0,
+            left: (collectionView.bounds.size.width - configurator.widthForHeader(at: 0)) / 2,
+            bottom: 0,
+            right: (collectionView.bounds.size.width - configurator.widthForHeader(at: numberOfTabs)) / 2
+        )
     }
 
     func collectionView(_ collectionView: UICollectionView,

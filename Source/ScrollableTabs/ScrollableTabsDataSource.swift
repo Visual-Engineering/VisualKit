@@ -8,33 +8,31 @@
 
 import Foundation
 
-public protocol ScrollableTabsDataSource: class {
-    func numberOfTabs() -> Int
-    func headerView(at index: Int) -> UIView
-    func contentView(at index: Int) -> UIView
+public protocol TabConfiguratorType: class {
+    var numberOfTabs: Int { get }
+    var headerHeight: CGFloat { get }
     func widthForHeader(at index: Int) -> CGFloat
-    func headerHeight() -> CGFloat
     
     var defaultTabIndex: Int { get }
-    var barConfiguration: BarConfiguration { get }
     var tabsCentered: Bool { get }
+    var barConfiguration: BarConfiguration { get }
 }
-
 
 //MARK: methods implemented by default
 
-extension ScrollableTabsDataSource {
+extension TabConfiguratorType {
     
     public var defaultTabIndex: Int {
         return 0
+    }
+    
+    public var tabsCentered: Bool {
+        return false
     }
     
     public var barConfiguration: BarConfiguration {
         return BarConfiguration.default
     }
     
-    public var tabsCentered: Bool {
-        return false
-    }
 }
 

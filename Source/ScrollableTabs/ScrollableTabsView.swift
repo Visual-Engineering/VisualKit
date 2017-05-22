@@ -1,31 +1,27 @@
 import UIKit
 
-public class ScrollableTabsView: UIView {
-
-    public var tabsDataSource: ScrollableTabsDataSource? {
+public class ScrollableTabsView<HeaderCell: ViewModelConfigurable, ContentCell: ViewModelConfigurable>: UIView where HeaderCell: UICollectionViewCell, ContentCell: UICollectionViewCell {
+    
+    public var headerDataSource: HeaderCollectionDataSource<HeaderCell>! {
         didSet {
-            guard let dataSource = tabsDataSource else { return }
-            
-            headerDelegate = HeaderCollectionDelegate(
-                dataSource: dataSource,
-                delegate: self
-            )
-            
-            contentDelegate = ContentCollectionDelegate(
-                dataSource: dataSource,
-                view: self,
-                delegate: self
-            )
+            headerCollectionView.dataSource = headerDataSource
+            headerCollectionView.register(HeaderCell.self, forCellWithReuseIdentifier: headerDataSource.reuseID)
         }
     }
+    public var contentDataSource: ContentCollectionDataSource<ContentCell>! {
+        didSet {
+            contentCollectionView.dataSource = contentDataSource
+            contentCollectionView.register(ContentCell.self, forCellWithReuseIdentifier: contentDataSource.reuseID)
+        }
+    }
+    
+    public var defaultTabIndex: Int = 0
 
     fileprivate var headerDelegate: HeaderCollectionDelegate? {
         didSet {
             headerCollectionView.delegate = headerDelegate
-            headerCollectionView.dataSource = headerDelegate
-            headerCollectionView.performBatchUpdates(headerCollectionView.reloadData) { (finished) in
-                guard finished, let defaultTabIndex = self.tabsDataSource?.defaultTabIndex else { return }
-                self.selectTab(at: defaultTabIndex, animated: false)
+            headerCollectionView.performBatchUpdates(headerCollectionView.reloadData) { _ in
+                self.selectTab(at: self.defaultTabIndex, animated: false)
             }
         }
     }
@@ -33,12 +29,13 @@ public class ScrollableTabsView: UIView {
     fileprivate var contentDelegate: ContentCollectionDelegate? {
         didSet {
             contentCollectionView.delegate = contentDelegate
-            contentCollectionView.dataSource = contentDelegate
             contentCollectionView.reloadData()
         }
     }
+    
+    public unowned var tabConfigurator: TabConfiguratorType
 
-    fileprivate lazy var headerCollectionView: UICollectionView = {
+    fileprivate let headerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(
@@ -48,10 +45,6 @@ public class ScrollableTabsView: UIView {
         
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(
-            ScrollableTabsHeaderViewCell.self,
-            forCellWithReuseIdentifier: ScrollableTabsHeaderViewCell.reuseIdentifier
-        )
         collectionView.bounces = false
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,10 +64,6 @@ public class ScrollableTabsView: UIView {
         collectionView.isPagingEnabled = true
         collectionView.allowsSelection = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(
-            ScrollableTabsContentViewCell.self,
-            forCellWithReuseIdentifier: ScrollableTabsContentViewCell.reuseIdentifier
-        )
         collectionView.bounces = false
         
         return collectionView
@@ -91,10 +80,10 @@ public class ScrollableTabsView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    
+    public init(tabConfigurator: TabConfiguratorType) {
+        self.tabConfigurator = tabConfigurator
+        super.init(frame: .zero)
         setupView()
     }
 
@@ -120,6 +109,12 @@ public class ScrollableTabsView: UIView {
         
         rootStackView.addArrangedSubview(headerCollectionView)
         rootStackView.addArrangedSubview(contentCollectionView)
+        
+        headerDataSource = HeaderCollectionDataSource<HeaderCell>(collectionView: headerCollectionView)
+        contentDataSource = ContentCollectionDataSource<ContentCell>(collectionView: contentCollectionView)
+        
+        headerDelegate = HeaderCollectionDelegate(configurator: tabConfigurator, delegate: self, numberOfTabs: headerDataSource.collectionView(headerCollectionView, numberOfItemsInSection: 0))
+        contentDelegate = ContentCollectionDelegate(delegate: self)
     }
 
     func reloadData() {
@@ -127,26 +122,20 @@ public class ScrollableTabsView: UIView {
         contentCollectionView.reloadData()
     }
     
-    public func configure(dataSource: ScrollableTabsDataSource) {
-        self.tabsDataSource = dataSource
+    public func configure(for tabs: [(header: HeaderCell.VM, content: ContentCell.VM)]) {
         
-        guard headerCollectionView.indexPathsForSelectedItems?.isEmpty == true else { return }
-        
-        selectTab(at: dataSource.defaultTabIndex)
+        headerDataSource.configure(for: tabs.map({ $0.header }))
+        contentDataSource.configure(for: tabs.map({ $0.content }))
         
         headerCollectionView.heightAnchor
-            .constraint(equalToConstant: dataSource.headerHeight())
+            .constraint(equalToConstant: tabConfigurator.headerHeight)
             .isActive = true
         
-        layoutIfNeeded()
-    }
-    
-    public func configureBar(height:CGFloat, color: UIColor) {
-        
+        reloadData()
     }
 }
 
-extension ScrollableTabsView: ScrollableTabTitleSelectionDelegate, ScrollableTabContentSelectionDelegate {
+extension ScrollableTabsView: ScrollableTabHeaderSelectionDelegate, ScrollableTabContentSelectionDelegate {
 
     func selectTab(at index: Int, animated: Bool = true) {
         selectTabTitle(at: index, animated: animated)
