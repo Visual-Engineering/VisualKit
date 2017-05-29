@@ -1,37 +1,38 @@
 //
-//  MainViewCell.swift
+//  CarouselViewCell.swift
 //  VisualKitDemo
 //
-//  Created by Alba Luján on 24/5/17.
+//  Created by Alba Luján on 26/5/17.
 //  Copyright © 2017 Visual Engineering. All rights reserved.
 //
 
+import Foundation
 import UIKit
+import VisualKit
 
-
-open class MainViewCell: UICollectionViewCell {
-    
-    static var reuseIdentifier = "MainViewCell"
+class CarouselViewCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.textAlignment = .center
-        label.textColor = .white
         return label
     }()
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open func setup() {
-        addSubview(titleLabel)
-        backgroundColor = .black
+    private func setup() {
+        
+        contentView.backgroundColor = .clear
+        
+        contentView.addSubview(titleLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -40,9 +41,12 @@ open class MainViewCell: UICollectionViewCell {
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
-    open func configureFor(title: String) {
-        titleLabel.text = title
-    }
 }
 
-
+extension CarouselViewCell: ViewModelReusable {
+    
+    func configure(for viewModel: CarouselItemViewModel) {
+        titleLabel.text = viewModel.title
+        self.backgroundColor = viewModel.backgroundColor
+    }
+}

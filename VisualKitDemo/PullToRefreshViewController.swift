@@ -34,7 +34,7 @@ public class PullToRefreshViewController: UIViewController {
         }()
         
         
-        //WHAT YOU NEED TO ADD REFRESH CONTROL TO YOUR SIMPLE VIEW
+        //WHAT YOU NEED TO DO, TO ADD REFRESH CONTROL TO YOUR SCROLL VIEW
         simpleView.addRefresh { (completion) in
             print("i am reloading from the controller")
             let deadlineTime = DispatchTime.now() + .seconds(3)

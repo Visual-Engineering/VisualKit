@@ -53,7 +53,7 @@ extension MainCollectionViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -65,6 +65,8 @@ extension MainCollectionViewController: UICollectionViewDataSource {
             cell.configureFor(title: "Scrollable tabs")
         case 1:
             cell.configureFor(title: "Pull to refresh")
+        case 2:
+            cell.configureFor(title: "Carousel")
         default:
             fatalError()
         }
@@ -81,6 +83,11 @@ extension MainCollectionViewController: UICollectionViewDataSource {
             }
         case 1:
             let vc = PullToRefreshViewController()
+            if let navigator = navigationController {
+                navigator.pushViewController(vc, animated: true)
+            }
+        case 2:
+            let vc = CarouselViewController()
             if let navigator = navigationController {
                 navigator.pushViewController(vc, animated: true)
             }
