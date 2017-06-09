@@ -16,6 +16,7 @@ open class MainViewCell: UICollectionViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.textColor = .white
         return label
     }()

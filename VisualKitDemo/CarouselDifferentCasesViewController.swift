@@ -1,15 +1,16 @@
 //
-//  MainCollectionViewController.swift
+//  CarouselDifferentCasesViewController.swift
 //  VisualKitDemo
 //
-//  Created by Alba Luján on 24/5/17.
+//  Created by Alba Luján on 30/5/17.
 //  Copyright © 2017 Visual Engineering. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import VisualKit
 
-class MainCollectionViewController: UIViewController {
+class CarouselDifferentCasesViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         
@@ -27,9 +28,9 @@ class MainCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-        self.title = "Select a component"
+        self.title = "Select a case"
         self.navigationController?.navigationBar.isTranslucent = false
-            
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -39,21 +40,21 @@ class MainCollectionViewController: UIViewController {
     }
 }
 
-extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            
-            return CGSize(width: collectionView.frame.size.width, height: 80)
+extension CarouselDifferentCasesViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 150, height: 100)
     }
 }
 
-extension MainCollectionViewController: UICollectionViewDataSource {
+extension CarouselDifferentCasesViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -62,11 +63,17 @@ extension MainCollectionViewController: UICollectionViewDataSource {
         
         switch indexPath.item {
         case 0:
-            cell.configureFor(title: "Scrollable tabs")
+            cell.configureFor(title: "Success: Reduced size")
         case 1:
-            cell.configureFor(title: "Pull to refresh")
+            cell.configureFor(title: "Success: Full size")
         case 2:
-            cell.configureFor(title: "Carousel")
+            cell.configureFor(title: "Error: The view model is nil")
+        case 3:
+            cell.configureFor(title: "Custom view for error: The view model is nil")
+        case 4:
+            cell.configureFor(title: "The list is empty")
+        case 5:
+            cell.configureFor(title: "Custom view for the empty list")
         default:
             fatalError()
         }
@@ -75,26 +82,23 @@ extension MainCollectionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         
+        var vc = CarouselViewController(carouselView: CarouselView<CarouselViewCell>(type: .customCellWidth(250)))
         switch indexPath.item {
         case 0:
-            let vc = ViewController()
-            if let navigator = navigationController {
-                navigator.pushViewController(vc, animated: true)
-            }
+            vc.showingType = .success
         case 1:
-            let vc = PullToRefreshViewController()
-            if let navigator = navigationController {
-                navigator.pushViewController(vc, animated: true)
-            }
+            vc = CarouselViewController(carouselView:CarouselView<CarouselViewCell>(type: .fullCellSize(showPageControl: false)))
         case 2:
-            let vc = CarouselDifferentCasesViewController()
-            if let navigator = navigationController {
-                navigator.pushViewController(vc, animated: true)
-            }
+            vc.showingType = .errorDefault
+        case 3:
+            vc.showingType = .errorCustom
+        case 4:
+            vc.showingType = .emptyDefault
         default:
-            fatalError()
+            vc.showingType = .emptyCustom
+        }
+        if let navigator = navigationController {
+            navigator.pushViewController(vc, animated: true)
         }
     }
 }
-
-
