@@ -16,6 +16,11 @@ Pod::Spec.new do |s|
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.source_files  = "Source/**/*.{swift,m,h}"
 
+  s.subspec 'Source' do |cs|
+    cs.source_files = 'Source/Rating/TagsView/TagsView.m'
+    cs.public_header_files = 'Source/VisualKit.h', 'Source/Rating/TagsView/TagsView.h'
+  end
+
   # ――― Dependencies ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
 end

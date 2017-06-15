@@ -111,6 +111,12 @@ public class CarouselView<Cell:ViewModelReusable>: UIView, ViewModelConfigurable
         pageControl.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
     }
     
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.x < 0 {
+            scrollView.contentOffset.y = 0
+        }
+    }
+    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

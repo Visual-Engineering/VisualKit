@@ -1,5 +1,7 @@
 PODS:
-  - VisualKit (0.0.1)
+  - VisualKit (0.0.1):
+    - VisualKit/Source (= 0.0.1)
+  - VisualKit/Source (0.0.1)
 
 DEPENDENCIES:
   - VisualKit (from `./VisualKit.podspec`)
@@ -9,7 +11,7 @@ EXTERNAL SOURCES:
     :path: ./VisualKit.podspec
 
 SPEC CHECKSUMS:
-  VisualKit: af6bdca03624af776825750c17bd198b5d7ad5df
+  VisualKit: 7f03d12f910b1d58a3a0607f23eb3a41329f8d9b
 
 PODFILE CHECKSUM: 20f0ed9e26b27e0f1d4ad646f002cec612e2323d
 

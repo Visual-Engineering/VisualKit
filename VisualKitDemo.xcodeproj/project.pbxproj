@@ -11,10 +11,12 @@
 		B21B81351ED592AB00587CBE /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B81341ED592AB00587CBE /* MainViewCell.swift */; };
 		B21B81471ED5B1E400587CBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B81461ED5B1E400587CBE /* ViewController.swift */; };
 		B21B814B1ED5B36B00587CBE /* PullToRefreshViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B814A1ED5B36B00587CBE /* PullToRefreshViewController.swift */; };
+		B24893841EF2D2F800F1474F /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24893831EF2D2F800F1474F /* TagView.swift */; };
 		B25AC6001EDC654800E7CE61 /* CarouselCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25AC5FF1EDC654800E7CE61 /* CarouselCustomView.swift */; };
 		B25CA5B01ED837000068E4A7 /* CarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25CA5AF1ED837000068E4A7 /* CarouselViewController.swift */; };
 		B25CA5B91ED8434C0068E4A7 /* CarouselViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25CA5B81ED8434C0068E4A7 /* CarouselViewCell.swift */; };
 		B27FF5401EDD57DE008B4232 /* CarouselDifferentCasesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FF53F1EDD57DE008B4232 /* CarouselDifferentCasesViewController.swift */; };
+		B2C0C7B61EEEDD2F00220A4F /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C0C7B41EEEDD2F00220A4F /* RateViewController.swift */; };
 		C1A4B8905FD8F4B4FF203B9C /* Pods_VisualKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E838C43FF97C16B793C48D9E /* Pods_VisualKitDemo.framework */; };
 		C26759FE1ECEE1D9003763BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26759FD1ECEE1D9003763BC /* AppDelegate.swift */; };
 		C2675A031ECEE1D9003763BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2675A011ECEE1D9003763BC /* Main.storyboard */; };
@@ -42,10 +44,12 @@
 		B21B81341ED592AB00587CBE /* MainViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewCell.swift; sourceTree = "<group>"; };
 		B21B81461ED5B1E400587CBE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B21B814A1ED5B36B00587CBE /* PullToRefreshViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshViewController.swift; sourceTree = "<group>"; };
+		B24893831EF2D2F800F1474F /* TagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TagView.swift; path = Rating/TagView.swift; sourceTree = "<group>"; };
 		B25AC5FF1EDC654800E7CE61 /* CarouselCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselCustomView.swift; sourceTree = "<group>"; };
 		B25CA5AF1ED837000068E4A7 /* CarouselViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselViewController.swift; sourceTree = "<group>"; };
 		B25CA5B81ED8434C0068E4A7 /* CarouselViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselViewCell.swift; sourceTree = "<group>"; };
 		B27FF53F1EDD57DE008B4232 /* CarouselDifferentCasesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselDifferentCasesViewController.swift; sourceTree = "<group>"; };
+		B2C0C7B41EEEDD2F00220A4F /* RateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateViewController.swift; path = Rating/RateViewController.swift; sourceTree = "<group>"; };
 		C26759FA1ECEE1D9003763BC /* VisualKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26759FD1ECEE1D9003763BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2675A021ECEE1D9003763BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -100,6 +104,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B2C0C7B31EEEDCCF00220A4F /* Rating */ = {
+			isa = PBXGroup;
+			children = (
+				B24893831EF2D2F800F1474F /* TagView.swift */,
+				B2C0C7B41EEEDD2F00220A4F /* RateViewController.swift */,
+			);
+			name = Rating;
+			sourceTree = "<group>";
+		};
 		C26759F11ECEE1D9003763BC = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +136,7 @@
 		C26759FC1ECEE1D9003763BC /* VisualKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B2C0C7B31EEEDCCF00220A4F /* Rating */,
 				B21B81461ED5B1E400587CBE /* ViewController.swift */,
 				C26759FD1ECEE1D9003763BC /* AppDelegate.swift */,
 				C2675A011ECEE1D9003763BC /* Main.storyboard */,
@@ -355,12 +369,14 @@
 			files = (
 				B21B814B1ED5B36B00587CBE /* PullToRefreshViewController.swift in Sources */,
 				B25CA5B91ED8434C0068E4A7 /* CarouselViewCell.swift in Sources */,
+				B24893841EF2D2F800F1474F /* TagView.swift in Sources */,
 				B27FF5401EDD57DE008B4232 /* CarouselDifferentCasesViewController.swift in Sources */,
 				B21B81351ED592AB00587CBE /* MainViewCell.swift in Sources */,
 				B21B81331ED56A9300587CBE /* MainCollectionViewController.swift in Sources */,
 				B21B81471ED5B1E400587CBE /* ViewController.swift in Sources */,
 				B25CA5B01ED837000068E4A7 /* CarouselViewController.swift in Sources */,
 				C26759FE1ECEE1D9003763BC /* AppDelegate.swift in Sources */,
+				B2C0C7B61EEEDD2F00220A4F /* RateViewController.swift in Sources */,
 				B25AC6001EDC654800E7CE61 /* CarouselCustomView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,9 +519,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = U57BHELK4C;
 				INFOPLIST_FILE = VisualKitDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.visualengin.VisualKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -517,9 +535,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = U57BHELK4C;
 				INFOPLIST_FILE = VisualKitDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.visualengin.VisualKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

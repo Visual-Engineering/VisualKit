@@ -28,6 +28,7 @@ class CarouselDifferentCasesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
+        view.backgroundColor = .black
         self.title = "Select a case"
         self.navigationController?.navigationBar.isTranslucent = false
         
