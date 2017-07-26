@@ -69,6 +69,8 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where
         return collectionView
     }()
     
+    private unowned let parentViewController: UIViewController
+    
     
     fileprivate var previousContentOffset = CGPoint(x: 0, y: 0)
     
@@ -81,8 +83,9 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where
         return stackView
     }()
     
-    public init(tabConfigurator: TabConfiguratorType) {
+    public init(tabConfigurator: TabConfiguratorType, parentViewController: UIViewController) {
         self.tabConfigurator = tabConfigurator
+        self.parentViewController = parentViewController
         super.init(frame: .zero)
         setupView()
     }
@@ -111,7 +114,7 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where
         rootStackView.addArrangedSubview(contentCollectionView)
         
         headerDataSource = HeaderCollectionDataSource<HeaderCell>(collectionView: headerCollectionView)
-        contentDataSource = ContentCollectionDataSource(collectionView: contentCollectionView, tabConfigurator: self.tabConfigurator)
+        contentDataSource = ContentCollectionDataSource(collectionView: contentCollectionView, tabConfigurator: self.tabConfigurator, parentViewController: parentViewController)
         
         headerDelegate = HeaderCollectionDelegate(configurator: tabConfigurator, delegate: self, numberOfTabs: headerDataSource.collectionView(headerCollectionView, numberOfItemsInSection: 0))
         contentDelegate = ContentCollectionDelegate(delegate: self)

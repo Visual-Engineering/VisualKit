@@ -63,7 +63,7 @@ class ViewController: UIViewController {
     var viewControllers: [ContentViewController]!
     
     lazy var scrollableTabsView: ScrollableTabsView<TitleCell> = {
-        return ScrollableTabsView<TitleCell>(tabConfigurator: self)
+        return ScrollableTabsView<TitleCell>(tabConfigurator: self, parentViewController: self)
     }()
 
     override func viewDidLoad() {

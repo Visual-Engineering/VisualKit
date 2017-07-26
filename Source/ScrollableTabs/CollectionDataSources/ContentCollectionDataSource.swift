@@ -12,16 +12,10 @@ class ScrollableTabsContentViewCell: UICollectionViewCell {
     
     static var reuseIdentifier = "ScrollableTabsContentViewCell"
     
-    var childViewController: UIViewController? {
-        didSet {
-            guard let vc = childViewController else { return }
-            contentView.addSubview(vc.view)
-            setupConstraints()
-        }
-    }
+    var childViewController: UIViewController?
     
-    func addChildViewController(from parentViewController: UIViewController) {
-        guard let contentViewController = childViewController else { return }
+    func addChildViewController(_ contentViewController: UIViewController, from parentViewController: UIViewController) {
+        self.childViewController = contentViewController
         parentViewController.addChildViewController(contentViewController)
         contentViewController.didMove(toParentViewController: parentViewController)
         contentView.addSubview(contentViewController.view)
@@ -52,9 +46,12 @@ public class ContentCollectionDataSource: NSObject, UICollectionViewDataSource {
     private unowned var collectionView: UICollectionView
     private unowned var tabConfigurator: TabConfiguratorType
     
-    public init(collectionView: UICollectionView, tabConfigurator: TabConfiguratorType) {
+    private unowned var parentViewController: UIViewController
+    
+    public init(collectionView: UICollectionView, tabConfigurator: TabConfiguratorType, parentViewController: UIViewController) {
         self.collectionView = collectionView
         self.tabConfigurator = tabConfigurator
+        self.parentViewController = parentViewController
     }
     
     // MARK: - UICollectionViewDataSource
@@ -72,7 +69,10 @@ public class ContentCollectionDataSource: NSObject, UICollectionViewDataSource {
         }
         
         cell.removeChildViewController()
-        cell.childViewController = tabConfigurator.viewController(atIndex: indexPath.item)
+        cell.addChildViewController(
+            tabConfigurator.viewController(atIndex: indexPath.item),
+            from: parentViewController
+        )
         
         return cell
     }
