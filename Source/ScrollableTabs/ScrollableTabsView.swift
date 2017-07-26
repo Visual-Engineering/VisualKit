@@ -1,6 +1,6 @@
 import UIKit
 
-public class ScrollableTabsView<HeaderCell: ViewModelConfigurable, ContentCell: ViewModelConfigurable>: UIView where HeaderCell: UICollectionViewCell, ContentCell: UICollectionViewCell {
+public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where HeaderCell: UICollectionViewCell {
     
     public var headerDataSource: HeaderCollectionDataSource<HeaderCell>! {
         didSet {
@@ -8,10 +8,10 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable, ContentCell: 
             headerCollectionView.register(HeaderCell.self, forCellWithReuseIdentifier: headerDataSource.reuseID)
         }
     }
-    public var contentDataSource: ContentCollectionDataSource<ContentCell>! {
+    public var contentDataSource: ContentCollectionDataSource! {
         didSet {
             contentCollectionView.dataSource = contentDataSource
-            contentCollectionView.register(ContentCell.self, forCellWithReuseIdentifier: contentDataSource.reuseID)
+            contentCollectionView.register(ScrollableTabsContentViewCell.self, forCellWithReuseIdentifier: contentDataSource.reuseID)
         }
     }
     
@@ -111,7 +111,7 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable, ContentCell: 
         rootStackView.addArrangedSubview(contentCollectionView)
         
         headerDataSource = HeaderCollectionDataSource<HeaderCell>(collectionView: headerCollectionView)
-        contentDataSource = ContentCollectionDataSource<ContentCell>(collectionView: contentCollectionView)
+        contentDataSource = ContentCollectionDataSource(collectionView: contentCollectionView, tabConfigurator: self.tabConfigurator)
         
         headerDelegate = HeaderCollectionDelegate(configurator: tabConfigurator, delegate: self, numberOfTabs: headerDataSource.collectionView(headerCollectionView, numberOfItemsInSection: 0))
         contentDelegate = ContentCollectionDelegate(delegate: self)
@@ -122,10 +122,9 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable, ContentCell: 
         contentCollectionView.reloadData()
     }
     
-    public func configure(for tabs: [(header: HeaderCell.VM, content: ContentCell.VM)]) {
+    public func configure(for tabs: [HeaderCell.VM]) {
         
-        headerDataSource.configure(for: tabs.map({ $0.header }))
-        contentDataSource.configure(for: tabs.map({ $0.content }))
+        headerDataSource.configure(for: tabs.map({ $0 }))
         
         headerCollectionView.heightAnchor
             .constraint(equalToConstant: tabConfigurator.headerHeight)

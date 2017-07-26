@@ -12,6 +12,8 @@ public protocol TabConfiguratorType: class {
     var numberOfTabs: Int { get }
     var headerHeight: CGFloat { get }
     func widthForHeader(at index: Int) -> CGFloat
+    func viewController(atIndex index: Int) -> UIViewController
+
     
     var defaultTabIndex: Int { get }
     var tabsCentered: Bool { get }

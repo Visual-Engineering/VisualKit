@@ -45,14 +45,25 @@ class ContentCell: UICollectionViewCell, ViewModelConfigurable {
     }
 }
 
+class ContentViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.randomColor()
+    }
+}
+
 class ViewController: UIViewController {
     
     let titles: [String] = [
         "Lorem", "ipsum", "dolor", "sit", "amet", "portitor Elam second"
     ]
     
-    lazy var scrollableTabsView: ScrollableTabsView<TitleCell, ContentCell> = {
-        return ScrollableTabsView<TitleCell, ContentCell>(tabConfigurator: self)
+    var viewControllers: [ContentViewController]!
+    
+    lazy var scrollableTabsView: ScrollableTabsView<TitleCell> = {
+        return ScrollableTabsView<TitleCell>(tabConfigurator: self)
     }()
 
     override func viewDidLoad() {
@@ -76,7 +87,11 @@ class ViewController: UIViewController {
             .constraint(equalTo: view.rightAnchor)
             .isActive = true
         
-        scrollableTabsView.configure(for: titles.map({ ($0, UIColor.randomColor()) }))
+        scrollableTabsView.configure(for: titles)
+        
+        viewControllers = (0..<titles.count).map { _ in
+            return ContentViewController()
+        }
     }
 }
 
@@ -91,6 +106,10 @@ extension ViewController: TabConfiguratorType {
     
     func widthForHeader(at index: Int) -> CGFloat {
         return 100
+    }
+    
+    func viewController(atIndex index: Int) -> UIViewController {
+        return viewControllers[index]
     }
 }
 
