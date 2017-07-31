@@ -140,11 +140,13 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where
 extension ScrollableTabsView: ScrollableTabHeaderSelectionDelegate, ScrollableTabContentSelectionDelegate {
 
     func selectTab(at index: Int, animated: Bool = true) {
+        guard tabConfigurator.numberOfTabs > index && index >= 0 else { return }
         selectTabTitle(at: index, animated: animated)
         selectTabContent(at: index, animated: animated)
     }
 
     func selectTabTitle(at index: Int, animated: Bool = true) {
+        guard tabConfigurator.numberOfTabs > index && index >= 0 else { return }
         headerCollectionView.selectItem(
             at: IndexPath(row: index, section: 0),
             animated: animated,
@@ -153,6 +155,7 @@ extension ScrollableTabsView: ScrollableTabHeaderSelectionDelegate, ScrollableTa
     }
 
     func selectTabContent(at index: Int, animated: Bool = true) {
+        guard tabConfigurator.numberOfTabs > index && index >= 0 else { return }
         let tabsContentOffset = CGPoint(
             x: bounds.size.width * CGFloat(index),
             y: contentCollectionView.contentOffset.y
