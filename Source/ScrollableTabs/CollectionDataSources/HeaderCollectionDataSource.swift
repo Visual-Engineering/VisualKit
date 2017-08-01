@@ -20,7 +20,6 @@ public class HeaderCollectionDataSource<HeaderCell: ViewModelConfigurable>: NSOb
     
     public func configure(for viewModel: [HeaderCell.VM]) {
         self.viewModel = viewModel
-        collectionView.reloadData()
     }
     
     // MARK: - UICollectionViewDataSource

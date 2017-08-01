@@ -56,9 +56,7 @@ class ContentViewController: UIViewController {
 
 class ViewController: UIViewController {
     
-    let titles: [String] = [
-        "Lorem", "ipsum", "dolor", "sit", "amet", "portitor Elam second"
-    ]
+    var titles: [String] = []
     
     var viewControllers: [ContentViewController]!
     
@@ -87,11 +85,18 @@ class ViewController: UIViewController {
             .constraint(equalTo: view.rightAnchor)
             .isActive = true
         
-        scrollableTabsView.configure(for: titles)
-        
-        viewControllers = (0..<titles.count).map { _ in
-            return ContentViewController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.titles = [
+                "Lorem", "ipsum", "dolor", "sit", "amet", "portitor Elam second"
+            ]
+            
+            self.scrollableTabsView.configure(for: self.titles)
+            
+            self.viewControllers = (0..<self.titles.count).map { _ in
+                return ContentViewController()
+            }
         }
+        
     }
 }
 

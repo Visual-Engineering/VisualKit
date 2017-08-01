@@ -118,6 +118,10 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where
         
         headerDelegate = HeaderCollectionDelegate(configurator: tabConfigurator, delegate: self, numberOfTabs: headerDataSource.collectionView(headerCollectionView, numberOfItemsInSection: 0))
         contentDelegate = ContentCollectionDelegate(delegate: self)
+        
+        headerCollectionView.heightAnchor
+            .constraint(equalToConstant: tabConfigurator.headerHeight)
+            .isActive = true
     }
 
     func reloadData() {
@@ -128,12 +132,9 @@ public class ScrollableTabsView<HeaderCell: ViewModelConfigurable>: UIView where
     public func configure(for tabs: [HeaderCell.VM]) {
         
         headerDataSource.configure(for: tabs.map({ $0 }))
-        
-        headerCollectionView.heightAnchor
-            .constraint(equalToConstant: tabConfigurator.headerHeight)
-            .isActive = true
-        
         reloadData()
+        
+        selectTab(at: tabConfigurator.defaultTabIndex, animated: false)
     }
 }
 
